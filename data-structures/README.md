@@ -1,0 +1,1 @@
+g++ -std=c++17 -I./src -I./tests ./tests/test_main.cpp ./tests/test_queue.cpp -o test_queue
