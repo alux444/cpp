@@ -8,7 +8,7 @@ public:
   Node<T> *next;
   Node<T> *prev;
   Node() : next(nullptr), prev(nullptr) {}
-  Node(T value) : value(value) {}
+  Node(T value) : value(value), next(nullptr), prev(nullptr) {}
 };
 
 template <typename T>
@@ -18,9 +18,21 @@ public:
   Node<T> *head;
   Node<T> *tail;
   int size;
-  LinkedList() : head(new Node<T>()), tail(new Node<T>()), size(0) {
+  LinkedList() : head(new Node<T>()), tail(new Node<T>()), size(0)
+  {
     this->head->next = this->tail;
     this->tail->prev = this->head;
+  }
+
+  ~LinkedList()
+  {
+    Node<T> *cur = head;
+    while (cur != nullptr)
+    {
+      Node<T> *next = cur->next;
+      delete cur;
+      cur = next;
+    }
   }
 
   void push_front(T value)
@@ -131,6 +143,7 @@ private:
   {
     node->prev->next = node->next;
     node->next->prev = node->prev;
+    delete node;
     this->size--;
   }
 };
