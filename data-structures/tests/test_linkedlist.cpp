@@ -10,6 +10,29 @@ TEST_CASE("LinkedList<int> initially empty", "[linkedlist]") {
 TEST_CASE("LinkedList<int> push_front and peek_front", "[linkedlist][int]") {
   LinkedList<int> list;
   REQUIRE(list.empty());  
+
+  list.push_front(1);
+  REQUIRE_FALSE(list.empty());
+  REQUIRE(list.peek_front() != nullptr);
+  REQUIRE(list.peek_front()->value == 1);
+
+  list.push_front(2);
+  REQUIRE(list.peek_front()->value == 2);
+  REQUIRE(list.size == 2);
+}
+
+TEST_CASE("LinkedList<int> push_back and peek_back", "[linkedlist][int]") {
+  LinkedList<int> list;
+  REQUIRE(list.empty());
+
+  list.push_back(1);
+  REQUIRE_FALSE(list.empty());
+  REQUIRE(list.peek_back() != nullptr);
+  REQUIRE(list.peek_back()->value == 1);
+
+  list.push_back(2);
+  REQUIRE(list.peek_back()->value == 2);
+  REQUIRE(list.size == 2);
 }
 
 TEST_CASE("LinkedList<int> push_front and push_back", "[linkedlist][int]") {
@@ -56,4 +79,18 @@ TEST_CASE("LinkedList<int> empty and peek", "[linkedlist][int]") {
     REQUIRE(list.empty());
     REQUIRE(list.peek_front() == nullptr);
     REQUIRE(list.peek_back() == nullptr);
+}
+
+TEST_CASE("LinkedList<int> count", "[linkedlist][int]") {
+    LinkedList<int> list;
+    REQUIRE(list.count() == 0);
+
+    list.push_front(1);
+    REQUIRE(list.count() == 1);
+
+    list.push_back(2);
+    REQUIRE(list.count() == 2);
+
+    list.erase(0);
+    REQUIRE(list.count() == 1);
 }

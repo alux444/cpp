@@ -61,13 +61,18 @@ public:
     return res;
   }
 
-  bool full()
+  bool full() const
   {
     return this->count == MAX_SIZE;
   }
 
-  bool empty()
+  bool empty() const
   {
     return this->count == 0;
+  }
+
+  int size() const
+  {
+    return this->count;
   }
 };

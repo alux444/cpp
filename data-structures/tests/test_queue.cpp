@@ -1,5 +1,5 @@
-#include "catch.hpp"
-#include "../src/queue.cpp" // Contains the Queue implementation
+#include <catch2/catch_all.hpp>
+#include "../src/queue.cpp"
 
 #include <string>
 #include <stdexcept>
@@ -49,3 +49,27 @@ TEST_CASE("Queue handles underflow", "[queue][underflow]") {
     Queue<int> q;
     REQUIRE_THROWS_AS(q.deque(), std::out_of_range);
 }
+
+TEST_CASE("Queue<int> size and empty checks", "[queue][int]") {
+    Queue<int> q;
+
+    REQUIRE(q.empty());
+    REQUIRE(q.size() == 0);
+
+    q.enqueue(1);
+    REQUIRE_FALSE(q.empty());
+    REQUIRE(q.size() == 1);
+
+    q.enqueue(2);
+    q.enqueue(3);
+    REQUIRE(q.size() == 3);
+
+    q.deque();
+    REQUIRE(q.size() == 2);
+
+    q.deque();
+    q.deque();
+    REQUIRE(q.empty());
+    REQUIRE(q.size() == 0);
+}
+
