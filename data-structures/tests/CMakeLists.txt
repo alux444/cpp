@@ -10,7 +10,7 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(Catch2)
 
 # Create test executable
-add_executable(my_tests test_main.cpp test_queue.cpp test_linkedlist.cpp test_list.cpp)
+add_executable(my_tests test_main.cpp test_queue.cpp test_linkedlist.cpp test_list.cpp test_hashmap.cpp)
 
 # Link your code and Catch2
 target_link_libraries(my_tests PRIVATE my_code Catch2::Catch2WithMain)
