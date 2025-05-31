@@ -18,6 +18,21 @@ private:
 public:
   HashMap(size_t bucketCount = DEFAULT_BUCKETS) : buckets(bucketCount), numElements(0) {}
 
+  V &operator[](const K &key)
+  {
+    size_t idx = get_bucket(key);
+    for (auto &kv : buckets[idx])
+    {
+      if (kv.first == key)
+        return kv.second;
+    }
+
+    // If key not found, insert default value and return ref to it
+    buckets[idx].emplace_back(key, V{});
+    ++numElements;
+    return buckets[idx].back().second;
+  }
+
   void insert(const K &key, const V &val)
   {
     size_t idx = getBucket(key);

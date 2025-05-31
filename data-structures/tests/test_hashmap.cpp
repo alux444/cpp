@@ -48,3 +48,15 @@ TEST_CASE("HashMap works with string keys", "[hashmap][string]") {
     REQUIRE(map.erase("a"));
     REQUIRE_FALSE(map.contains("a"));
 }
+
+TEST_CASE("HashMap operator[] inserts default and returns reference", "[hashmap][operator[]]") {
+    HashMap<int, std::string> map;
+    REQUIRE(map.size() == 0);
+    // Accessing a missing key should insert a default value
+    std::string& ref = map[42];
+    REQUIRE(map.size() == 1);
+    REQUIRE(ref == "");
+    // Assign through operator[]
+    map[42] = "forty-two";
+    REQUIRE(map.at(42) == "forty-two");
+}
