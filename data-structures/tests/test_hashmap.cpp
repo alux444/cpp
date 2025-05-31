@@ -49,7 +49,7 @@ TEST_CASE("HashMap works with string keys", "[hashmap][string]") {
     REQUIRE_FALSE(map.contains("a"));
 }
 
-TEST_CASE("HashMap operator[] inserts default and returns reference", "[hashmap][operator[]]") {
+TEST_CASE("HashMap operator inserts default and returns reference", "[hashmap][operator]") {
     HashMap<int, std::string> map;
     REQUIRE(map.size() == 0);
     // Accessing a missing key should insert a default value

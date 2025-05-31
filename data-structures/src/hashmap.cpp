@@ -20,7 +20,7 @@ public:
 
   V &operator[](const K &key)
   {
-    size_t idx = get_bucket(key);
+    size_t idx = getBucket(key);
     for (auto &kv : buckets[idx])
     {
       if (kv.first == key)
