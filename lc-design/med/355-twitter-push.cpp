@@ -1,90 +1,146 @@
-#include <vector>
-#include <unordered_map>
 #include <unordered_set>
-#include <queue>
+#include <list>
+#include <vector>
 
-struct CompareByTime
+/* Push to users. O(1) newsFeed() */
+
+struct Tweet
 {
-  bool operator()(std::vector<int> a, std::vector<int> b)
-  {
-    return b[1] > a[1];
-  }
+  int time;
+  int userId;
+  int id;
+  Tweet(int time, int userId, int id) : time(time), userId(userId), id(id) {}
 };
 
-struct User
+class User
 {
-  std::unordered_set<int> following;
-  std::unordered_set<int> followed;
-  std::vector<std::vector<int>> tweets; // ordered by tweet ids asc
+public:
+  int id;
+  std::unordered_set<User *> followedUsers;
+  std::unordered_set<User *> followedBy;
+  std::list<Tweet *> tweets;
+  std::list<Tweet *> newsFeed;
 
-  User() : following{}, followed{}, tweets{} {}
+  User(int id) : id(id) {}
+
+  void addTweetToFeed(Tweet *tweet) { newsFeed.push_front(tweet); }
+
+  void mergeTweets(User *other)
+  {
+    std::list<Tweet *> newTweets{};
+    std::list<Tweet *> &otherTweets = other->tweets;
+    auto tweets1 = this->newsFeed.begin();
+    auto tweets2 = otherTweets.begin();
+
+    while (tweets1 != this->newsFeed.end() ||
+           tweets2 != otherTweets.end())
+    {
+      if (tweets1 == this->newsFeed.end())
+      {
+        newTweets.push_back(*tweets2);
+        ++tweets2;
+      }
+      else if (tweets2 == otherTweets.end())
+      {
+        newTweets.push_back(*tweets1);
+        ++tweets1;
+      }
+      else if ((*tweets1)->time > (*tweets2)->time)
+      {
+        newTweets.push_back(*tweets1);
+        ++tweets1;
+      }
+      else
+      {
+        newTweets.push_back(*tweets2);
+        ++tweets2;
+      }
+    }
+
+    newsFeed = newTweets;
+  }
+
+  void removeTweetsFromUser(User *user)
+  {
+    for (auto it = newsFeed.begin(); it != newsFeed.end();)
+    {
+      if ((*it)->userId == user->id)
+      {
+        it = newsFeed.erase(it);
+      }
+      else
+      {
+        ++it;
+      }
+    }
+  }
 };
 
 class Twitter
 {
 private:
+  std::unordered_map<int, User *> users;
   int time;
-  std::unordered_map<int, User *> users; // user id : user
-public:
-  Twitter() : users{}, time(0) {}
 
-  // O(1)
-  void postTweet(int userId, int tweetId)
+  User *getUser(int userId)
   {
-    if (users.find(userId) == users.end())
-      users[userId] = new User();
-    User *user = users[userId];
-    user->tweets.push_back({tweetId, ++time});
+    if (!users.count(userId))
+      users[userId] = new User(userId);
+    return users[userId];
   }
 
+public:
+  Twitter() {}
 
-  // iterate through every follower
+  void postTweet(int userId, int tweetId)
+  {
+    User *user = getUser(userId);
+    Tweet *newTweet = new Tweet(++time, userId, tweetId);
+
+    user->tweets.push_front(newTweet);
+    user->addTweetToFeed(newTweet);
+
+    for (User *follower : user->followedBy)
+      follower->addTweetToFeed(newTweet);
+  }
+
   std::vector<int> getNewsFeed(int userId)
   {
     if (users.find(userId) == users.end())
       return {};
-
-    std::priority_queue<
-        std::vector<int>, // value type
-        std::vector<std::vector<int>>, // container type
-        CompareByTime>
-        pq;
-    for (std::vector<int> tweet : users[userId]->tweets)
-      pq.push(tweet);
-    for (int followingId : users[userId]->following)
-    {
-      for (std::vector<int> tweet : users[followingId]->tweets)
-        pq.push(tweet);
-    }
-    // O(logn * users * tweets)
+    std::vector<int> res;
     int toAdd = 10;
-    std::vector<int> res{};
-    // O(10 logn);
-    while (!pq.empty() && toAdd > 0)
+    for (Tweet *tweet : users[userId]->newsFeed)
     {
-      res.push_back(pq.top()[0]);
-      pq.pop();
-      toAdd--;
+      res.push_back(tweet->id);
+      --toAdd;
+      if (toAdd == 0)
+        break;
     }
     return res;
   }
 
-  // O(1)
   void follow(int followerId, int followeeId)
   {
-    if (users.find(followerId) == users.end())
-      users[followerId] = new User();
-    if (users.find(followeeId) == users.end())
-      users[followeeId] = new User();
+    User *followee = getUser(followeeId);
+    User *follower = getUser(followerId);
 
-    users[followerId]->following.insert(followeeId);
-    users[followeeId]->followed.insert(followerId);
+    if (follower->followedUsers.count(followee))
+      return;
+
+    follower->followedUsers.insert(followee);
+    followee->followedBy.insert(follower);
+
+    follower->mergeTweets(followee);
   }
 
-  // O(1)
   void unfollow(int followerId, int followeeId)
   {
-    users[followerId]->following.erase(followeeId);
-    users[followeeId]->followed.erase(followerId);
+    // remove the following
+    users[followerId]->followedUsers.erase(users[followeeId]);
+    users[followeeId]->followedBy.erase(users[followerId]);
+
+    // remove all instances of the followees tweets from the followers feed
+    users[followerId]->removeTweetsFromUser(users[followeeId]);
   }
 };
