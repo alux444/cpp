@@ -7,7 +7,8 @@ struct Movie
   int id;
   int price;
   int shopId;
-  Movie() = default;
+  Movie() = default; // sometimes sets, vectors, maps need a default constructor.
+  // in the case of anything where a temporary value is needed, e.g balancing, swaps..
   Movie(int id, int price, int shopId)
       : id(id), price(price), shopId(shopId) {}
 };
