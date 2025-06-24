@@ -120,10 +120,92 @@ public:
 
 # pointer to implementation idiom (pimpl)
 
-hide implementation details of a class from its interface by just having a pointer to implementation class (improve encapsulation)
+hide implementation details of a class from its interface by just having a pointer to implementation class (improve encapsulation). pretty much just a basic wrapper for a class implementation
 
-TODO
+```cpp
+// greeter.h
+#pragma once
+#include <memory>
+
+class GreeterImpl; // forward declaration
+
+class Greeter {
+public:
+    Greeter(const std::string& name);
+    ~Greeter();
+    void greet();
+
+private:
+    std::unique_ptr<GreeterImpl> pImpl;
+};
+
+#include "Greeter.h"
+#include <iostream>
+
+// greeter.cpp
+class GreeterImpl {
+public:
+    GreeterImpl(const std::string& name) : name(name) {}
+    void greet() {
+        std::cout << "Hello, " << name << "!" << std::endl;
+    }
+
+private:
+    std::string name;
+};
+
+// wrapper methods
+Greeter::Greeter(const std::string& name)
+    : pImpl(std::make_unique<GreeterImpl>(name)) {}
+
+Greeter::~Greeter() = default;
+
+void Greeter::greet() {
+    pImpl->greet();
+}
+
+// main.cpp
+#include "Greeter.h"
+
+int main() {
+    Greeter g("Alex");
+    g.greet();  // prints: Hello, Alex!
+    return 0;
+}
+```
 
 # curiously returning template pattern (crtp)
 
-TODO
+class inherits from a template base class, taking derived class as parameter. allows for static compile time polymorphism (no runtime cost). no virtual functions, high performance.
+
+```cpp
+#include <iostream>
+
+// Base class template
+template <typename Derived>
+class Printer {
+public:
+    void printType() {
+        // calls Derived's getTypeName() method
+        std::cout << static_cast<Derived*>(this)->getTypeName() << std::endl;
+    }
+};
+
+// Derived class
+class Apple : public Printer<Apple> {
+public:
+    std::string getTypeName() const { return "Apple"; }
+};
+
+class Banana : public Printer<Banana> {
+public:
+    std::string getTypeName() const { return "Banana"; }
+};
+
+int main() {
+    Apple a;
+    Banana b;
+    a.printType();  // prints "Apple"
+    b.printType();  // prints "Banana"
+}
+```
