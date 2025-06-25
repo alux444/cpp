@@ -277,3 +277,11 @@ std::vector<int> numbers = {1, 3, 2, 4, 3, 5, 3};
 // remove all occurrences of 3
 numbers.erase(std::remove(numbers.begin(), numbers.end(), 3), numbers.end());
 ```
+
+# when to use constexpr
+
+A pure function is a function that meets the following criteria:
+- The function always returns the same return result when given the same arguments
+- The function has no side effects (e.g. it doesn’t change the value of static local or global variables, doesn’t do input or output, etc…).
+Pure functions should generally be made constexpr.
+
