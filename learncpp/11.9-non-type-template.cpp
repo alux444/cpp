@@ -1,7 +1,7 @@
 #include <cmath>
 #include <iostream>
 
-template <double D>
+template <int D>
 double getSqrt()
 {
   static_assert(D >= 0 && "getSqrt<D>(): D must be positive");
@@ -26,8 +26,8 @@ double getSqrt()
 
 int main()
 {
-  std::cout << getSqrt<5.0>() << '\n';
-  std::cout << getSqrt<-5.0>() << '\n';
+  std::cout << getSqrt<36>() << '\n';
+  std::cout << getSqrt<-36>() << '\n';
 
   return 0;
 }
