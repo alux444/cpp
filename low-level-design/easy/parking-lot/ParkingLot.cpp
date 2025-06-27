@@ -25,17 +25,11 @@ ParkingLot::ParkingLot(int compactCount, int regularCount, int largeCount)
 {
   int spotNumber = 1;
   for (int i = 0; i < compactCount; ++i)
-    spots.push_back(new ParkingSpot(spotNumber++, ParkingSpotType::COMPACT));
+    spots.push_back(std::make_unique<ParkingSpot>(spotNumber++, ParkingSpotType::COMPACT));
   for (int i = 0; i < regularCount; ++i)
-    spots.push_back(new ParkingSpot(spotNumber++, ParkingSpotType::REGULAR));
+    spots.push_back(std::make_unique<ParkingSpot>(spotNumber++, ParkingSpotType::REGULAR));
   for (int i = 0; i < largeCount; ++i)
-    spots.push_back(new ParkingSpot(spotNumber++, ParkingSpotType::LARGE));
-}
-
-ParkingLot::~ParkingLot()
-{
-  for (auto spot : spots)
-    delete spot;
+    spots.push_back(std::make_unique<ParkingSpot>(spotNumber++, ParkingSpotType::LARGE));
 }
 
 int ParkingLot::getCapacity() const
@@ -109,10 +103,10 @@ void ParkingLot::displayOccupied() const
 
 ParkingSpot *ParkingLot::findAvailableSpot(const Vehicle *vehicle) const
 {
-  for (auto spot : spots)
+  for (const auto &spot : spots)
   {
     if (spot->getIsAvailable() && spot->canFitVehicle(vehicle))
-      return spot;
+      return spot.get();
   }
   return nullptr;
 }

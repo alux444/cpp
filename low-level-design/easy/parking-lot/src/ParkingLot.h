@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <map>
+#include <memory>
 #include <./ParkingSpot.h>
 #include <./Vehicle.h>
 
@@ -31,7 +32,7 @@ private:
   ParkingLot();
   ParkingLot(int compactCount, int regularCount, int largeCount);
   ~ParkingLot();
-  std::vector<ParkingSpot *> spots;
+  std::vector<std::unique_ptr<ParkingSpot>> spots;
   std::map<std::string, ParkingSpot *> occupiedSpots; // license plate : spot
   int capacity;
   int available;
