@@ -76,6 +76,7 @@ Vehicle *ParkingLot::removeVehicle(const std::string license)
   {
     occupiedSpots.erase(it);
     ++available;
+    notifyObservers(spot->getSpotNumber());
   }
   return vehicle;
 }
@@ -109,4 +110,23 @@ ParkingSpot *ParkingLot::findAvailableSpot(const Vehicle *vehicle) const
       return spot.get();
   }
   return nullptr;
+}
+
+void ParkingLot::addObserver(ParkingLotObserver *observer)
+{
+  observers.push_back(observer);
+}
+
+void ParkingLot::removeObserver(ParkingLotObserver *observer)
+{
+  observers.erase(std::remove(observers.begin(), observers.end(), observer), observers.end());
+}
+
+void ParkingLot::notifyObservers(int spotNumber)
+{
+  for (auto observer : observers)
+  {
+    if (observer)
+      observer->notifyAvailableSpot(spotNumber);
+  }
 }

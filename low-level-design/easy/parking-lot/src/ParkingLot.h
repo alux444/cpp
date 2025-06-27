@@ -5,6 +5,7 @@
 #include <memory>
 #include <./ParkingSpot.h>
 #include <./Vehicle.h>
+#include <./ParkingLotObserver.h>
 
 class ParkingLot
 {
@@ -28,6 +29,9 @@ public:
   void displayInfo() const;
   void displayOccupied() const;
 
+  void addObserver(ParkingLotObserver *observer);
+  void removeObserver(ParkingLotObserver *observer);
+
 private:
   ParkingLot();
   ParkingLot(int compactCount, int regularCount, int largeCount);
@@ -36,4 +40,6 @@ private:
   std::map<std::string, ParkingSpot *> occupiedSpots; // license plate : spot
   int capacity;
   int available;
+  std::vector<ParkingLotObserver *> observers;
+  void notifyObservers(int spotNumber);
 };
