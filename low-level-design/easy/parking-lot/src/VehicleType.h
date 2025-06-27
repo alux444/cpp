@@ -7,7 +7,7 @@ enum class VehicleType
   TRUCK
 };
 
-std::ostream &operator<<(std::ostream &os, VehicleType type)
+inline std::ostream &operator<<(std::ostream &os, VehicleType type)
 {
   switch (type)
   {

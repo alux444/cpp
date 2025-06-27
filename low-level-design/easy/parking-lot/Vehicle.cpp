@@ -1,26 +1,23 @@
-#pragma once
-
-#include <string>
+#include "../src/VehicleType.h"
+#include "../src/Vehicle.h"
 #include <iostream>
+#include <string>
 
-#include <../src/VehicleType.h>
-#include <../src/Vehicle.h>
+Vehicle::Vehicle(std::string licensePlate, VehicleType vehicleType)
+    : licensePlate(licensePlate), vehicleType(vehicleType) {}
 
-class Vehicle
+std::string Vehicle::getLicensePlate() const
 {
-public:
-  Vehicle(std::string licensePlate, VehicleType vehicleType) : licensePlate(licensePlate), vehicleType(vehicleType) {};
+  return this->licensePlate;
+}
 
-  std::string getLicensePlate() const { return this->licensePlate; };
-  VehicleType getVehicleType() const { return this->vehicleType; };
+VehicleType Vehicle::getVehicleType() const
+{
+  return this->vehicleType;
+}
 
-  void displayInfo() const
-  {
-    std::cout << "License plate: " << licensePlate << '\n';
-    std::cout << "Vehicle type: " << vehicleType << '\n';
-  };
-
-private:
-  std::string licensePlate;
-  VehicleType vehicleType;
-};
+void Vehicle::displayInfo() const
+{
+  std::cout << "License plate: " << licensePlate << '\n';
+  std::cout << "Vehicle type: " << vehicleType << '\n';
+}
