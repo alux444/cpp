@@ -1,0 +1,1 @@
+g++ -std=c++17 main.cpp ParkingLot.cpp VehicleFactory.cpp ParkingSpot.cpp Vehicle.cpp Customer.cpp -o parking_lot

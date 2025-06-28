@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include <./VehicleType.h>
+#include "VehicleType.h"
 
 class Vehicle
 {

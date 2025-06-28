@@ -1,7 +1,7 @@
 #pragma once
 
-#include <./ParkingSpotType.h>
-#include <./Vehicle.h>
+#include "ParkingSpotType.h"
+#include "Vehicle.h"
 
 class ParkingSpot
 {

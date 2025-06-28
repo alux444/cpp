@@ -1,4 +1,4 @@
-#include "../src/ParkingLot.h"
+#include "src/ParkingLot.h"
 #include <iostream>
 
 // Singleton with custom size
@@ -31,6 +31,8 @@ ParkingLot::ParkingLot(int compactCount, int regularCount, int largeCount)
   for (int i = 0; i < largeCount; ++i)
     spots.push_back(std::make_unique<ParkingSpot>(spotNumber++, ParkingSpotType::LARGE));
 }
+
+ParkingLot::~ParkingLot() = default;
 
 int ParkingLot::getCapacity() const
 {

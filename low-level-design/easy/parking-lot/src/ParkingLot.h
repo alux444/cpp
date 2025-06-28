@@ -3,9 +3,9 @@
 #include <vector>
 #include <map>
 #include <memory>
-#include <./ParkingSpot.h>
-#include <./Vehicle.h>
-#include <./ParkingLotObserver.h>
+#include "ParkingSpot.h"
+#include "Vehicle.h"
+#include "ParkingLotObserver.h"
 
 class ParkingLot
 {

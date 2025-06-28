@@ -1,5 +1,5 @@
-#include "../src/VehicleType.h"
-#include "../src/Vehicle.h"
+#include "src/VehicleType.h"
+#include "src/Vehicle.h"
 #include <iostream>
 #include <string>
 

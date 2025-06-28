@@ -1,6 +1,6 @@
-#include "../src/ParkingSpotType.h"
-#include "../src/Vehicle.h"
-#include "../src/ParkingSpot.h"
+#include "src/ParkingSpotType.h"
+#include "src/Vehicle.h"
+#include "src/ParkingSpot.h"
 
 #include <iostream>
 
