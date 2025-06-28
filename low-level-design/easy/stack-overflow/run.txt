@@ -1,0 +1,1 @@
+g++ -std=c++17 main.cpp StackOverflow.cpp Answer.cpp Comment.cpp Question.cpp Tag.cpp User.cpp Vote.cpp Post.cpp -o stack_overflow
