@@ -60,24 +60,6 @@ const int& cx = const_cast<const int&>(x);       // Add const qualifier - but mo
 volatile int& vx = const_cast<volatile int&>(x); // Add volatile qualifier
 ```
 
-# explicit
-
-prevents implicit conversion by the compiler
-
-```cpp
-class MyClass {
-public:
-    explicit MyClass(int x) { /*...*/ }
-};
-
-void func(MyClass obj) { /*...*/ }
-
-int main() {
-    func(42);       // Error: no implicit conversion allowed
-    func(MyClass(42)); // OK: explicit construction
-}
-```
-
 # decltype
 
 query type of an expression at compile time without evaluating the expression - avoid runtime side effects
@@ -281,7 +263,7 @@ numbers.erase(std::remove(numbers.begin(), numbers.end(), 3), numbers.end());
 # when to use constexpr
 
 A pure function is a function that meets the following criteria:
+
 - The function always returns the same return result when given the same arguments
 - The function has no side effects (e.g. it doesn’t change the value of static local or global variables, doesn’t do input or output, etc…).
-Pure functions should generally be made constexpr.
-
+  Pure functions should generally be made constexpr.

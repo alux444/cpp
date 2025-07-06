@@ -70,3 +70,37 @@ Employee(std::string_view name, int id, bool isManager)
 - `Foo (*bar)();` explicitly groups the `*` with bar. This defines a function pointer named bar that holds the address of a function that takes no parameters and returns a Foo.
 - `Foo (* bar());` is the same as `Foo * bar();`
 - `(Foo *) bar();` might expect this to be the same as `Foo_ bar()`, but this is actually an expression statement that calls function `bar()`, C-style casts the return value to type Foo, and then discards it.
+
+# copy constructor
+
+```cpp
+Fraction(const Fraction& fraction)
+        // Initialize our members using the corresponding member of the parameter
+        : m_numerator{ fraction.m_numerator }
+        , m_denominator{ fraction.m_denominator }
+    {}
+```
+
+- the copy constructor should have no side effects
+- we should prefer the implicit behaviour
+- if we're making our own copy instructor, the parameter should be an lvalue reference
+- copy constructor is called whenever assigned to a variable, e.g `x = 5`
+- when an object is passed by value into a parameter and they are the same class type, the copy constructor is called implicitly
+
+```cpp
+void printFraction(Fraction f) // f is pass by value
+{ f.print(); } // calls copy constructor
+```
+
+- when an object is returned by value by a function, the copy constructor is again called implicitly
+
+```cpp
+Fraction generateFraction(int n, int d)
+{
+    Fraction f{ n, d };
+    return f; // when returning this to a variable, will implicitly call copy constructor for the temporary variable
+    // now if we're assigning this to something, the copy constructor will be called again
+}
+```
+
+- copy elison can be enabled in the compiled to avoid unnecessary copies, e.g `A x { A{5} }` to `A x{5}`
