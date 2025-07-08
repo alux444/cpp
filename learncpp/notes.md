@@ -1,3 +1,17 @@
+# stack vs heap
+
+## stack
+
+- faster, smaller
+- memory is automatically allocated and deallocated by the machine
+- stores local variables, function call info, return addresses
+- size must be known at compile time
+
+## heap
+
+- dynamic allocation, larger
+- slower than the stack
+
 # virtual functions
 
 - abstract methods equivalent, for polymorphism - flexible, extensible code, use common interfaces etc.

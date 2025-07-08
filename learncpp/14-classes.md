@@ -104,3 +104,23 @@ Fraction generateFraction(int n, int d)
 ```
 
 - copy elison can be enabled in the compiled to avoid unnecessary copies, e.g `A x { A{5} }` to `A x{5}`
+
+# explicit
+
+- prevents implicit conversion by the compiler
+- generally, make any constructor that accepts 1 argument explicit
+- don't make copy or move constructors explicit
+
+```cpp
+class MyClass {
+public:
+    explicit MyClass(int x) { /*...*/ }
+};
+
+void func(MyClass obj) { /*...*/ }
+
+int main() {
+    func(42);       // Error: no implicit conversion allowed
+    func(MyClass(42)); // OK: explicit construction
+}
+```
