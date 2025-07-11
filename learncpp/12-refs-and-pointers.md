@@ -161,3 +161,12 @@ void printIDNumber(std::optional<const int> id = std::nullopt)
 ```
 
 to make a reference optional `std::optional<std::reference_wrapper<Class>>`
+
+## reference wrapper
+
+- like a reference, except:
+  - copyable
+  - assignable
+  - storable in containers
+  - accessed by `.get()`
+  - no null option (see above)

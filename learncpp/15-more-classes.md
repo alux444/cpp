@@ -104,4 +104,3 @@ public:
 - display is a friend of storage, this doesn't mean storage is a friend of display unless added
 - it is not transitive, so if A and B are friends and B and C are friends, A and C are not friends
 - it is not inherited, so if class A makes B a friend, classes derived of B are not friends
-
