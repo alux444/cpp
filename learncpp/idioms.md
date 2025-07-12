@@ -18,6 +18,8 @@ every class needs the following if it manages resources:
 | Move constructor | Transfers ownership from a temporary (rvalue) object |
 | Move assignment operator | Transfers ownership during assignment from a temporary |
 
+the default copy constructor / assignment operators do shallow copies, which is fine for classes with no dynamically allocated variables. but if there is, we need to rather handle deep copies
+
 # substitution failure is not an error (sfinae)
 
 for selective template instantiations - selective templates for certain types
