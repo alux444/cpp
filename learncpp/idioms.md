@@ -180,6 +180,10 @@ int main() {
 
 class inherits from a template base class, taking derived class as parameter. allows for static compile time polymorphism (no runtime cost). no virtual functions, high performance.
 
+- no dynamic dispatch (runtime polymorphism). base class is a template that depends on the derived class. cant do e.g `Animal->speak()`
+- more complex to read / debug
+- base class needs to know about derived class via template parameter (coupling)
+
 ```cpp
 #include <iostream>
 
